@@ -1,0 +1,116 @@
+{
+  "name": "Agentic Customer Support Milestone 2",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "support-query",
+        "responseMode": "responseNode"
+      },
+      "id": "webhook-support-query",
+      "name": "Support Query Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "const message = ($json.body?.message || '').toLowerCase();\nconst topic = message.includes('refund') || message.includes('billing') || message.includes('invoice') ? 'billing' : message.includes('login') || message.includes('error') || message.includes('bug') ? 'technical' : 'general';\nconst urgency = message.includes('urgent') || message.includes('angry') || message.includes('blocked') ? 'high' : message.includes('cannot') || message.includes('failed') ? 'medium' : 'low';\nreturn [{ json: { ...$json.body, classification: { agent: 'intake-classifier', topic, urgency } } }];"
+      },
+      "id": "intake-classifier",
+      "name": "Intake Classifier Agent",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [260, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "const message = ($json.message || '').toLowerCase();\nconst negativeWords = ['angry', 'frustrated', 'terrible', 'worst', 'fraud'];\nconst negativeScore = negativeWords.filter((word) => message.includes(word)).length;\nreturn [{ json: { ...$json, sentiment: { agent: 'sentiment-analyzer', label: negativeScore > 0 ? 'negative' : 'neutral', highlyNegative: negativeScore >= 2 } } }];"
+      },
+      "id": "sentiment-analyzer",
+      "name": "Sentiment Analyzer Agent",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [520, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "const message = ($json.message || '').toLowerCase();\nconst faqs = [\n  { id: 'billing-refund', topic: 'billing', keywords: ['refund', 'charged', 'invoice', 'billing'], answer: 'Please share your order ID and charge date so billing can review your refund request.' },\n  { id: 'technical-login', topic: 'technical', keywords: ['login', 'password', 'otp'], answer: 'Try resetting your password and confirm whether OTP reaches your registered email or phone.' },\n  { id: 'general-hours', topic: 'general', keywords: ['hours', 'contact'], answer: 'Support is available Monday to Friday, 9 AM to 6 PM.' }\n];\nconst match = faqs.find((faq) => faq.topic === $json.classification.topic && faq.keywords.some((keyword) => message.includes(keyword)));\nreturn [{ json: { ...$json, faq: { agent: 'faq-responder', matched: Boolean(match), faqId: match?.id || null, response: match?.answer || 'No exact FAQ match found.' } } }];"
+      },
+      "id": "faq-responder",
+      "name": "FAQ Responder Agent",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [780, 0]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.classification.urgency }}",
+              "rightValue": "high",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        }
+      },
+      "id": "needs-escalation",
+      "name": "Needs Human Handoff?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1040, 0]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { status: 'escalated', routingPath: ['webhook', 'intake-classifier', 'sentiment-analyzer', 'faq-responder', 'human-handoff'], finalResponse: $json.faq.response + ' A support specialist will follow up.', classification: $json.classification, sentiment: $json.sentiment, faq: $json.faq } }}"
+      },
+      "id": "escalation-response",
+      "name": "Escalation Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1300, -120]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { status: 'answered', routingPath: ['webhook', 'intake-classifier', 'sentiment-analyzer', 'faq-responder'], finalResponse: $json.faq.response, classification: $json.classification, sentiment: $json.sentiment, faq: $json.faq } }}"
+      },
+      "id": "faq-response",
+      "name": "FAQ Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1300, 120]
+    }
+  ],
+  "connections": {
+    "Support Query Webhook": {
+      "main": [[{ "node": "Intake Classifier Agent", "type": "main", "index": 0 }]]
+    },
+    "Intake Classifier Agent": {
+      "main": [[{ "node": "Sentiment Analyzer Agent", "type": "main", "index": 0 }]]
+    },
+    "Sentiment Analyzer Agent": {
+      "main": [[{ "node": "FAQ Responder Agent", "type": "main", "index": 0 }]]
+    },
+    "FAQ Responder Agent": {
+      "main": [[{ "node": "Needs Human Handoff?", "type": "main", "index": 0 }]]
+    },
+    "Needs Human Handoff?": {
+      "main": [
+        [{ "node": "Escalation Response", "type": "main", "index": 0 }],
+        [{ "node": "FAQ Response", "type": "main", "index": 0 }]
+      ]
+    }
+  }
+}

@@ -1,0 +1,14 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">SupportFlow AI logo</title>
+  <desc id="desc">A chat bubble with connected agent nodes representing automated customer support orchestration.</desc>
+  <rect width="512" height="512" rx="72" fill="#0E1726"/>
+  <path d="M116 145C116 117.386 138.386 95 166 95H346C373.614 95 396 117.386 396 145V259C396 286.614 373.614 309 346 309H247L169 373V309H166C138.386 309 116 286.614 116 259V145Z" fill="#F6F8FB"/>
+  <circle cx="191" cy="202" r="23" fill="#19A974"/>
+  <circle cx="256" cy="202" r="23" fill="#2B6DE9"/>
+  <circle cx="321" cy="202" r="23" fill="#FFB703"/>
+  <path d="M214 202H233" stroke="#0E1726" stroke-width="10" stroke-linecap="round"/>
+  <path d="M279 202H298" stroke="#0E1726" stroke-width="10" stroke-linecap="round"/>
+  <path d="M191 225V247C191 257.493 199.507 266 210 266H302C312.493 266 321 257.493 321 247V225" stroke="#0E1726" stroke-width="14" stroke-linecap="round"/>
+  <path d="M164 407H348" stroke="#19A974" stroke-width="22" stroke-linecap="round"/>
+  <path d="M206 407H306" stroke="#2B6DE9" stroke-width="22" stroke-linecap="round"/>
+</svg>

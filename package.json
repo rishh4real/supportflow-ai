@@ -1,0 +1,19 @@
+{
+  "name": "agentic-customer-support-system",
+  "version": "1.0.0",
+  "description": "Milestone 2 implementation for an agentic customer support workflow.",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test"
+  },
+  "keywords": [
+    "agentic-ai",
+    "customer-support",
+    "webhook",
+    "faq"
+  ],
+  "author": "",
+  "license": "MIT",
+  "type": "commonjs"
+}
