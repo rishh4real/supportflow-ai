@@ -1,6 +1,9 @@
 # Capstone Submission Summary
 
 Project name: Agentic Customer Support System
+Team name: 69 bits
+Team leader: Atulit Krishna
+Members: Shaurya Sharma, Rishi Sharma, Tanush Gupta
 
 ## Milestone 2 Deliverables
 
@@ -27,3 +30,4 @@ Project name: Agentic Customer Support System
 - Tests are in `test/orchestrator.test.js`.
 - Milestone documentation is in `docs/milestone-2.md`.
 - n8n template is in `docs/n8n-workflow-template.json`.
+- README and demo commands are in `README.md`.

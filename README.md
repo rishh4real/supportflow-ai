@@ -1,36 +1,43 @@
-# SupportFlow AI
+# Agentic Customer Support System
 
-![SupportFlow AI logo](assets/logo.svg)
+![Agentic Customer Support System logo](assets/logo.svg)
 
-Milestone 2 implementation for a capstone project. It includes the core support agents, FAQ lookup, webhook intake, and a basic orchestration flow.
+Milestone 2 capstone implementation of a multi-agent customer support pipeline with webhook intake, FAQ automation, sentiment analysis, escalation routing, and orchestration-ready workflow documentation.
 
-## Repository Name
+## Example Workflow
 
-Recommended GitHub repository name:
+A customer submits a support query via webhook. The intake classifier detects topic and urgency, the sentiment analyzer scores the tone, and the FAQ responder attempts an instant answer from the knowledge base. If the case is unresolved, urgent, or highly negative, the escalation handler creates a human support ticket with context. The orchestrator coordinates the full pipeline end-to-end.
 
-```text
-supportflow-ai
-```
+## Milestone 2 Features
 
-## What Is Included
+- Intake classifier agent for query topic and urgency.
+- FAQ responder agent with local knowledge base lookup.
+- Escalation handler for human-in-the-loop support handoff.
+- Sentiment analyzer for negative interaction detection.
+- Agent orchestration layer for route coordination.
+- Webhook support API for ticket intake.
+- Conversation logging and structured workflow outputs.
+- n8n-ready template at `docs/n8n-workflow-template.json`.
 
-- Intake classifier agent for topic and urgency detection.
-- FAQ responder agent with a small knowledge base.
-- Sentiment analyzer agent for negative customer mood detection.
-- Escalation handler for human-in-the-loop support tickets.
-- Webhook API for receiving support queries.
-- Tests for answered, escalated, and rejected cases.
-- Milestone documentation in `docs/milestone-2.md`.
-- n8n workflow template in `docs/n8n-workflow-template.json`.
+## Team
 
-## Run
+Team name: 69 bits
+
+Team leader: Atulit Krishna
+
+Members:
+- Shaurya Sharma
+- Rishi Sharma
+- Tanush Gupta
+
+## Run Locally
 
 ```bash
 npm test
 npm start
 ```
 
-Server URL:
+Base URL:
 
 ```text
 http://localhost:3000
@@ -79,11 +86,3 @@ docs/
   n8n-workflow-template.json
   submission-summary.md
 ```
-
-## Milestone 2 Checklist
-
-- Core agents built.
-- FAQ knowledge base lookup implemented.
-- Webhook integration set up.
-- Basic classifier to FAQ responder orchestration implemented.
-- Human handoff path included for unresolved, urgent, or negative cases.

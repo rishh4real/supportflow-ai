@@ -1,4 +1,4 @@
-# Milestone 2: Core Agents and Webhook Orchestration
+# Agentic Customer Support System - Milestone 2
 
 ## Scope Completed
 
@@ -7,6 +7,7 @@
 - Webhook endpoint receives customer support queries at `POST /webhook/support`.
 - Basic orchestration connects webhook intake to classifier, sentiment analyzer, FAQ responder, and escalation handler.
 - Escalation handler creates a human handoff ticket for high urgency, highly negative, or unresolved cases.
+- Submission scope is complete up to Milestone 2.
 
 ## Architecture
 
