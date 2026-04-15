@@ -2,7 +2,7 @@
 
 ![Agentic Customer Support System logo](assets/logo.svg)
 
-Milestone 2 capstone implementation of a multi-agent customer support pipeline with webhook intake, FAQ automation, sentiment analysis, escalation routing, and orchestration-ready workflow documentation.
+
 
 ## Example Workflow
 
